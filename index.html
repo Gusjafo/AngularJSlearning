@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proyecto AngularJS</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
+        integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/estilos.css">
+</head>
+
+<body ng-app="miApp">
+
+    <div class="container-fluid mt-3">
+        <!-- CONTROLADOR 1 -->
+        <div ng-controller="miCtrl1" ng-init="mostrar=true; contador=123" class="jumbotron">
+            <h1>Bienvenidos a AngularJS</h1>
+            <h2>Controlador 1</h2>
+            <hr>
+            <hr>
+            <!--------------------------->
+            <!--      EXPRESIONES      -->
+            <!--------------------------->
+            <h3><u>Expresiones</u></h3>
+            <p>{{ mensaje }}</p>
+            <p>{{numero}}</p>
+            <br>
+            <!--------------------------->
+            <!--      ng-bind          -->
+            <!--------------------------->
+            <h3><u>ng-bind</u></h3>
+            <p ng-bind="mensaje"></p>
+            <p ng-bind="numero"></p>
+
+            <!---------------------------------------------->
+            <!-- expression vs ng-bind vs ng-bind-html    -->
+            <!---------------------------------------------->
+            <h3><u>expression vs ng-bind</u></h3>
+            <br>
+
+            <h5>Mensaje en formato texto</h5>
+            <p>{{mensajeTexto}}</p>
+            <p ng-bind="mensajeTexto"></p>
+            <p ng-bind-html="mensajeTexto"></p>
+            <br>
+
+            <h5>Mensaje en formato HTML</h5>
+            <p>{{mensajeHTML}}</p>
+            <p ng-bind="mensajeHTML"></p>
+            <p ng-bind-html="mensajeHTML"></p>
+            <br>
+
+            <!---------------------------------------------->
+            <!-- ng-show / ng-hide / ng-click / ng-init   -->
+            <!---------------------------------------------->
+            <h3><u>ng-show / ng-hide / ng-click / ng-init</u></h3>
+            <br>
+
+            <button class="btn btn-success my-2" ng-click="mostrar=!mostrar">{{ mostrar? 'Ocultar' : 'Mostrar' }}</button>
+            <p ng-show="mostrar" class="alert alert-info">Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                Odit, id? Vel, excepturi consectetur doloremque sit velit nulla similique at corporis cum
+                exercitationem, illum maiores illo, iusto consequuntur expedita reprehenderit laboriosam?</p>
+
+            <!-- <h4 ng-show="!mostrar" class="alert alert-warning">Elemento Oculto</h4> -->
+            <h4 ng-hide="mostrar" class="alert alert-warning">Elemento Oculto</h4>
+            <div>
+                <button class="btn btn-success my-2" ng-click="mostrar2=!mostrar2">{{ mostrar2?'Ocultar' : 'Mostrar' }}</button>
+                <p ng-show="mostrar2" class="alert alert-info caja">Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                    Odit, id? Vel, excepturi consectetur doloremque sit velit nulla similique at corporis cum
+                    exercitationem, illum maiores illo, iusto consequuntur expedita reprehenderit laboriosam?</p>
+                <!-- <h4 ng-hide="mostrar2" class="alert alert-warning">Elemento Oculto</h4> -->
+                <br>
+            </div>
+
+            <button class="btn btn-info my-2 mr-2" ng-click="contador = contador + 1">
+                contar {{ contador }}
+            </button>
+
+            <button class="btn btn-info my-2" ng-click="incrementar()">
+                contar {{ getContador() }}
+            </button>
+
+            <!---------------------------------------------->
+            <!--             ng-model                     -->
+            <!---------------------------------------------->
+            <h3><u>ng-model (doble data binding)</u></h3>
+            <br>
+            <h5>Entrada</h5>
+            <input type="text" value="valor1"><br>
+            <input type="text" value="{{valor1}}"> {{ valor1 }} -> <b>SIN DOBLE DATA BINDING</b><br>
+            <input type="text" ng-model="valor2"> {{ valor2 }} -> <b>CON DOBLE DATA BINDING</b><br>
+            <br>
+            <h5>Checkbox</h5>
+            <input type="checkbox" ng-model="check" name="" id="">{{ check }} <br>
+            <br>
+
+            <!---------------------------------------------->
+            <!--             ng-repeat                    -->
+            <!---------------------------------------------->
+            <h3><u>ng-repeat</u></h3>
+            <br>
+
+            <button class="btn btn-warning my-3" ng-click="agregarAlumno()">Agregar alumno</button>
+
+            <h5 ng-hide="alumnos.length" class="alert alert-danger">No se encontraron alumnos</h5>
+
+            <div ng-show="alumnos.length">
+
+                <h5>Array de strings en una lista desordenada (ul)</h5>
+                <ul>
+                    <li>{{personas[0]}}</li>
+                    <li>{{personas[1]}}</li>
+                    <li>{{personas[2]}}</li>
+                    <li>{{personas[3]}}</li>
+                </ul>
+                <br>
+
+                <ul>
+                    <li ng-repeat="persona in personas">{{persona}}</li>
+                </ul>
+                <br>
+
+                <!-- ---------------------------------------------------------- -->
+
+                <h5>Array de objetos en una lista desordenada (ul)</h5>
+
+                <ul>
+                    <li ng-repeat="alumno in alumnos">
+                        <!-- pre preserva formato en tipo JSON     -->
+                        <!-- <pre>{{alumno}}</pre> -->
+                        <!-- {{ alumno.nombre }} {{ alumno.apellido}} -->
+                        {{ alumno.nombre + ' ' + alumno.apellido}}
+                    </li>
+                </ul>
+                <br>
+
+                <!-- ---------------------------------------------------------- -->
+
+                <h5>Array de objetos en una tabla (table)</h5>
+
+                Filtro por Cantidad <input type="text" ng-model="cantidad" placeholder="Filas mostradas: todas"><br>
+                Filtro Skip y cantidad: <input type="text" ng-model="skip" placeholder="skip"><input type="text" ng-model="cant" placeholder="cantidad"><br>
+                Ordenamiento inverso <input type="checkbox" ng-model="inverso"><br>
+                Busqueda (por nombre) <input type="text" ng-model="busqueda" placeholder="Ingrese patron"><br>
+                Busqueda (por apellidos) <input type="text" ng-model="busqueda2" placeholder="Ingrese patron"><br>
+                Edad min <input type="text" ng-model="edadMin"> -
+                Edad max <input type="text" ng-model="edadMax"><br>
+                
+                <br>
+
+                <div class="table-responsive mt-1">
+
+                    <table class="table table-dark">
+                        <tr>
+                            <th ng-click="ordenar('nombre')"> Nombre </th>
+                            <th ng-click="ordenar('apellido')"> Apellido </th>
+                            <th ng-click="ordenar('edad')"> Edad </th>
+                            <th ng-click="ordenar('curso')"> Curso </th>
+                            <th ng-click="ordenar('cuota')"> Cuota </th>
+                            <th ng-click="ordenar('altura')"> Altura </th>
+                            <th ng-click="ordenar('foto')"> Foto </th>
+                            <th ng-click="ordenar('foto')"> Foto URL</th>
+                        </tr>
+                        <!-- Busqueda NO exacta por campo nombre -->
+                        <!-- filter:{nombre:busqueda} -->
+
+                        <!-- Busqueda exacta por campo nombre -->
+                        <!-- filter:{nombre:busqueda}:true -->
+
+                        <!-- Busqueda NO exacta por CUALQUIER campo nombre -->
+                        <!-- filter:busqueda -->
+                        <!-- filter:busqueda:false -->
+                        <!-- filter:{$:busqueda}:false -->
+
+                        <!-- Busqueda EXACTA por CUALQUIER campo nombre -->
+                        <!-- filter:busqueda:true -->
+                        <!-- filter:{$:busqueda}:true -->
+
+                        <tr ng-repeat="alumno in alumnos | limitTo:cantidad | orderBy: orden | filter:{nombre:busqueda}:false | filter:{apellido:busqueda2}:false | skipLimitTo:skip:cant | edad:edadMin:edadMax" >
+                            <td>{{alumno.nombre | lowercase }}</td>
+                            <td>{{alumno.apellido | uppercase }}</td>
+                            <td>{{alumno.edad}}</td>
+                            <td>{{alumno.curso? 'Si' : 'No'}}</td>
+                            <td>{{alumno.cuota | number: 2 | micurrency: 'U$D' }}</td>
+                            <td>{{alumno.altura | number: 1 }}</td>
+                            <td><img ng-src="{{alumno.foto}}" width="50" alt="foto de {{alumno.nombre}}"></td>
+                            <td>{{alumno.foto | capitalize | acortar: 10 | wrap: '"':'"' }}</td>
+                        </tr>
+                    </table>
+
+                    <h4 class="alert alert-secondary">
+                        <span ng-show="alumnosCurso().ningun">Ningun alumno hizo el curso.</span>
+                        <span ng-show="alumnosCurso().todos">Todos los alumnos hicieron el curso.</span>
+                        <span ng-hide="alumnosCurso().ningun || alumnosCurso().todos">
+                            {{ alumnosCurso().cantidad }} de {{ alumnosCurso().total }} alumnos hicieron el curso.
+                        </span>
+                    </h4>
+
+                </div>
+                <br>
+
+                <!-- ---------------------------------------------------------- -->
+
+                <h5>Array de objetos en un componente de bootstrap</h5>
+
+                <div class="media alert alert-info" ng-repeat="alumno in alumnos">
+                    <img ng-src="{{alumno.foto}}" width="150" alt="foto de {{alumno.nombre}}">
+                    <div class="media-body">
+                        <h4 class="mt-0">Alumno {{ $index + 1 }}</h4>
+                        <br>
+                        <p>Nombre: <a ng-href="{{alumno.foto}}" target="__blanck">{{ alumno.nombre }}
+                                {{alumno.apellido}}</a></p>
+                        <p>Edad: <i>{{ alumno.edad}} </i></p>
+                        <span ng-style="aplicarEstilo(alumno.curso)"> Hizo el curso </span><input type="checkbox" ng-model="alumno.curso" name="" id="">
+                        <button class="btn btn-danger ml-3" ng-click="borrarAlumno($index)">Borrar</button>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- CONTROLADOR 2 -->
+            <div ng-controller="miCtrl2" class="jumbotron">
+                <h2>Controlador 2</h2>
+                <hr>
+                <hr>
+                <p>{{ mensaje }}</p>
+                <p id="parrafo" class="alert alert-warning">Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut
+                    similique rem non,
+                    quibusdam beatae nemo ipsam illo praesentium, earum labore ducimus facere tempore, reiciendis sed
+                    perspiciatis id quis nihil sit.</p>
+            </div>
+        </div>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+        <script src="https://code.angularjs.org/1.8.2/angular-sanitize.min.js"></script>
+        <script src="https://code.angularjs.org/1.8.2/angular-animate.min.js"></script>
+        <script src="js/controlador.js"></script>
+
+</body>
+
+</html>

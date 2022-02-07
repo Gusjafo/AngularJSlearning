@@ -1,0 +1,33 @@
+h1 {
+    color: rgb(158, 158, 173);
+}
+
+h2 {
+    color: green;
+}
+
+h3 {
+    color: orange;
+}
+
+h5 {
+    color: blueviolet;
+}
+
+.table th, .table td {
+    vertical-align: middle;
+}
+
+.table th {
+    cursor: pointer;
+}
+
+.caja {
+    opacity: 1;
+    transition: all linear 0.5s;
+}
+
+.caja.ng-hide{
+    opacity: 0;
+    transition: all linear 2s;
+}
